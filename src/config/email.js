@@ -20,3 +20,5 @@ transporter.verify((error) => {
     console.log("Email server ready");
   }
 });
+
+module.exports = transporter;
