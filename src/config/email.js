@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -6,16 +6,16 @@ const transporter = nodemailer.createTransport({
   secure: false,
   auth: {
     user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS
-  }
+    pass: process.env.SMTP_PASS,
+  },
 });
 
 // Verify connection
 transporter.verify((error, success) => {
   if (error) {
-    console.log('Email config error:', error.message);
+    console.error("Email config error:", error);
   } else {
-    console.log('Email server ready');
+    console.log("Email server ready");
   }
 });
 
