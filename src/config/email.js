@@ -1,24 +1,21 @@
-const nodemailer = require("nodemailer");
+require("dotenv").config();
+const { Resend } = require("resend");
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Verify connection
-transporter.verify((error) => {
-  if (error) {
-    console.error(error);
-    console.error("Code:", error.code);
-    console.error("Command:", error.command);
-  } else {
-    console.log("Email server ready");
-  }
-});
+// Verify connection on startup
+resend.emails
+  .send({
+    from: `AURA EXPRESS <${process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev"}>`,
+    to: process.env.ADMIN_EMAIL,
+    subject: "Test Email - Resend Configuration",
+    html: "<p>Test email to verify Resend configuration is working.</p>",
+  })
+  .then(() => {
+    console.log("Resend email service ready");
+  })
+  .catch((error) => {
+    console.log("Resend configuration error:", error.message);
+  });
 
-module.exports = transporter;
+module.exports = resend;
