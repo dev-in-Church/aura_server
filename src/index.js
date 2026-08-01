@@ -8,17 +8,25 @@ const contactRouter = require("./routes/contact");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
-const allowedOrigins = [
-  process.env.FRONTEND_URL,
-  "http://localhost:3000",
-  "https://www.auraexpressafricaltd.com",
-  "https://aura-express-knjdlv97w-dev-in-churchs-projects.vercel.app",
-];
+// Allowed origins: public site + admin dashboard (comma-separated in ALLOWED_ORIGINS)
+const allowedOrigins = (
+  process.env.ALLOWED_ORIGINS ||
+  `${process.env.FRONTEND_URL || "http://localhost:3000"},${process.env.ADMIN_URL || "http://localhost:3001"}`
+)
+  .split(",")
+  .map((o) => o.trim())
+  .filter(Boolean);
 
+// Middleware
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: (origin, callback) => {
+      // Allow non-browser clients (no origin) and any whitelisted origin
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
   }),
 );
