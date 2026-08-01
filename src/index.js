@@ -4,6 +4,8 @@ const cors = require("cors");
 
 const quotesRouter = require("./routes/quotes");
 const contactRouter = require("./routes/contact");
+const authRouter = require("./routes/auth");
+const invoicesRouter = require("./routes/invoices");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -30,12 +32,13 @@ app.use(
     credentials: true,
   }),
 );
-
 app.use(express.json());
 
 // Routes
+app.use("/api/auth", authRouter);
 app.use("/api/quotes", quotesRouter);
 app.use("/api/contact", contactRouter);
+app.use("/api/invoices", invoicesRouter);
 
 // Health check
 app.get("/api/health", (req, res) => {

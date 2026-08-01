@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../config/database");
+const { requireAuth } = require("../middleware/auth");
 const {
   sendContactNotificationToAdmin,
   sendContactConfirmationToCustomer,
@@ -32,7 +33,7 @@ router.post("/", async (req, res) => {
     Promise.all([
       sendContactNotificationToAdmin(contact),
       sendContactConfirmationToCustomer(contact),
-    ]).catch((err) => console.error("Email error:", err));
+    ]).catch((err) => console.error("Email error:", err.message));
 
     res.status(201).json({
       success: true,
@@ -45,7 +46,7 @@ router.post("/", async (req, res) => {
 });
 
 // GET /api/contact - Get all messages (admin)
-router.get("/", async (req, res) => {
+router.get("/", requireAuth, async (req, res) => {
   try {
     const { status, limit = 50, offset = 0 } = req.query;
 
@@ -78,7 +79,7 @@ router.get("/", async (req, res) => {
 });
 
 // PATCH /api/contact/:id - Update message status (admin)
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const { status, admin_notes } = req.body;

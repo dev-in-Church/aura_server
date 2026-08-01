@@ -87,8 +87,8 @@ const sendQuoteConfirmationToCustomer = async (quote) => {
         </p>
         
         <p style="color: #555;">
-          <strong>Phone:</strong> +254 736 758 613<br>
-          <strong>Email:</strong> auraexpressafrica@gmail.com<br>
+          <strong>Phone:</strong> +254 700 000 000<br>
+          <strong>Email:</strong> info@auraexpressafrica.com<br>
           <strong>Location:</strong> Mombasa, Kenya
         </p>
         
@@ -201,9 +201,82 @@ const sendContactConfirmationToCustomer = async (contact) => {
   }
 };
 
+const sendInvoiceToCustomer = async (invoice, pdfBuffer) => {
+  const currency = invoice.currency || "USD";
+  const total = Number(invoice.total || 0).toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background-color: #55b8f7; padding: 20px; text-align: center;">
+        <h1 style="color: white; margin: 0;">AURA EXPRESS AFRICA LTD</h1>
+        <p style="color: white; margin: 5px 0 0 0;">Delivering Excellence</p>
+      </div>
+
+      <div style="padding: 30px; background-color: #f9f9f9;">
+        <h2 style="color: #333;">Dear ${invoice.client_name},</h2>
+
+        <p style="color: #555; line-height: 1.6;">
+          Thank you for your quotation. Please find attached the invoice
+          <strong>${invoice.invoice_number}</strong> prepared based on your shipment details.
+        </p>
+
+        <div style="background-color: #fff; border-left: 4px solid #55b8f7; padding: 15px; margin: 20px 0;">
+          <p style="margin: 5px 0;"><strong>Invoice Number:</strong> ${invoice.invoice_number}</p>
+          <p style="margin: 5px 0;"><strong>Transport Mode:</strong> ${invoice.transport_mode || "-"}</p>
+          <p style="margin: 5px 0;"><strong>Route:</strong> ${invoice.route || "-"}</p>
+          <p style="margin: 5px 0;"><strong>Total Amount:</strong> ${currency} ${total}</p>
+        </div>
+
+        <p style="color: #555; line-height: 1.6;">
+          The full breakdown is available in the attached PDF. If you have any questions about
+          this invoice, please reply to this email or contact us directly.
+        </p>
+
+        <p style="color: #555;">
+          <strong>Phone:</strong> +254 700 000 000<br>
+          <strong>Email:</strong> info@auraexpressafricaltd.com<br>
+          <strong>Location:</strong> Majengo, Mombasa, Kenya
+        </p>
+
+        <p style="color: #555; line-height: 1.6;">
+          Best regards,<br>
+          <strong>AURA EXPRESS AFRICA LTD Team</strong>
+        </p>
+      </div>
+
+      <div style="background-color: #1a1a1a; padding: 20px; text-align: center;">
+        <p style="color: #55b8f7; margin: 0 0 10px 0; font-weight: bold;">Your Reliable Partner in Freight & Logistics</p>
+        <p style="color: #999; margin: 0; font-size: 12px;">Road Freight | Sea Freight | Air Freight | Heavy Haulage</p>
+      </div>
+    </div>
+  `;
+
+  try {
+    await resend.emails.send({
+      from: `AURA EXPRESS <${process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev"}>`,
+      to: invoice.client_email,
+      subject: `Invoice ${invoice.invoice_number} - AURA EXPRESS AFRICA LTD`,
+      html: html,
+      attachments: [
+        {
+          filename: `${invoice.invoice_number}.pdf`,
+          content: pdfBuffer.toString("base64"),
+        },
+      ],
+    });
+  } catch (error) {
+    console.error("Invoice email error:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   sendQuoteNotificationToAdmin,
   sendQuoteConfirmationToCustomer,
   sendContactNotificationToAdmin,
   sendContactConfirmationToCustomer,
+  sendInvoiceToCustomer,
 };

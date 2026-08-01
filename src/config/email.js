@@ -1,21 +1,16 @@
 require("dotenv").config();
 const { Resend } = require("resend");
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const apiKey = process.env.RESEND_API_KEY;
 
-// Verify connection on startup
-resend.emails
-  .send({
-    from: `AURA EXPRESS <${process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev"}>`,
-    to: process.env.ADMIN_EMAIL,
-    subject: "Test Email - Resend Configuration",
-    html: "<p>Test email to verify Resend configuration is working.</p>",
-  })
-  .then(() => {
-    console.log("Resend email service ready");
-  })
-  .catch((error) => {
-    console.log("Resend configuration error:", error.message);
-  });
+if (!apiKey) {
+  console.warn(
+    "[email] RESEND_API_KEY is not set - outgoing emails will fail until it is configured.",
+  );
+}
+
+// Pass a harmless placeholder if the key is missing so the app can still boot;
+// actual send calls will surface a clear error instead of crashing on startup.
+const resend = new Resend(apiKey || "re_placeholder_key");
 
 module.exports = resend;
