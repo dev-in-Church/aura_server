@@ -87,7 +87,7 @@ const sendQuoteConfirmationToCustomer = async (quote) => {
         </p>
         
         <p style="color: #555;">
-          <strong>Phone:</strong> +254 700 000 000<br>
+          <strong>Phone:</strong> +254 748 173 453<br>
           <strong>Email:</strong> info@auraexpressafrica.com<br>
           <strong>Location:</strong> Mombasa, Kenya
         </p>
@@ -99,7 +99,7 @@ const sendQuoteConfirmationToCustomer = async (quote) => {
       </div>
       
       <div style="background-color: #1a1a1a; padding: 20px; text-align: center;">
-        <p style="color: #55b8f7; margin: 0 0 10px 0; font-weight: bold;">Your Reliable Partner in Freight & Logistics</p>
+        <p style="color: #55b8f7; margin: 0 0 10px 0; font-weight: bold;">Your Reliable Partner in International Procurement & Logistics</p>
         <p style="color: #999; margin: 0; font-size: 12px;">Road Freight | Sea Freight | Air Freight | Heavy Haulage</p>
       </div>
     </div>
@@ -182,7 +182,7 @@ const sendContactConfirmationToCustomer = async (contact) => {
       </div>
       
       <div style="background-color: #1a1a1a; padding: 20px; text-align: center;">
-        <p style="color: #55b8f7; margin: 0 0 10px 0; font-weight: bold;">Your Reliable Partner in Freight & Logistics</p>
+        <p style="color: #55b8f7; margin: 0 0 10px 0; font-weight: bold;">Your Reliable Partner in International Procurement & Logistics</p>
         <p style="color: #999; margin: 0; font-size: 12px;">Mombasa, Kenya</p>
       </div>
     </div>
@@ -236,7 +236,7 @@ const sendInvoiceToCustomer = async (invoice, pdfBuffer) => {
         </p>
 
         <p style="color: #555;">
-          <strong>Phone:</strong> +254 700 000 000<br>
+          <strong>Phone:</strong> +254 748 173 453<br>
           <strong>Email:</strong> info@auraexpressafricaltd.com<br>
           <strong>Location:</strong> Majengo, Mombasa, Kenya
         </p>
@@ -248,7 +248,7 @@ const sendInvoiceToCustomer = async (invoice, pdfBuffer) => {
       </div>
 
       <div style="background-color: #1a1a1a; padding: 20px; text-align: center;">
-        <p style="color: #55b8f7; margin: 0 0 10px 0; font-weight: bold;">Your Reliable Partner in Freight & Logistics</p>
+        <p style="color: #55b8f7; margin: 0 0 10px 0; font-weight: bold;">Your Reliable Partner in International Procurement & Logistics</p>
         <p style="color: #999; margin: 0; font-size: 12px;">Road Freight | Sea Freight | Air Freight | Heavy Haulage</p>
       </div>
     </div>

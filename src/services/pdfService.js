@@ -1,6 +1,6 @@
 const PDFDocument = require("pdfkit");
 
-const ORANGE = "#f97316";
+const BLUE = "#0068d7";
 const DARK = "#1a1a1a";
 const GRAY = "#666666";
 
@@ -29,7 +29,7 @@ function generateInvoicePdf(invoice) {
       const currency = invoice.currency || "USD";
 
       // Header band
-      doc.rect(0, 0, doc.page.width, 90).fill(ORANGE);
+      doc.rect(0, 0, doc.page.width, 90).fill(BLUE);
       doc
         .fillColor("white")
         .fontSize(24)
@@ -166,12 +166,10 @@ function generateInvoicePdf(invoice) {
       const valX = 470;
       doc.fontSize(10).font("Helvetica").fillColor(GRAY);
       doc.text("Subtotal:", labelX, rowY, { width: 80, align: "right" });
-      doc
-        .fillColor(DARK)
-        .text(money(invoice.subtotal, currency), valX, rowY, {
-          width: 75,
-          align: "right",
-        });
+      doc.fillColor(DARK).text(money(invoice.subtotal, currency), valX, rowY, {
+        width: 75,
+        align: "right",
+      });
       rowY += 16;
       doc
         .fillColor(GRAY)
@@ -186,7 +184,7 @@ function generateInvoicePdf(invoice) {
           align: "right",
         });
       rowY += 20;
-      doc.rect(labelX - 10, rowY - 4, 175, 24).fill(ORANGE);
+      doc.rect(labelX - 10, rowY - 4, 175, 24).fill(BLUE);
       doc.fillColor("white").font("Helvetica-Bold").fontSize(11);
       doc.text("TOTAL:", labelX, rowY + 2, { width: 80, align: "right" });
       doc.text(money(invoice.total, currency), valX, rowY + 2, {
